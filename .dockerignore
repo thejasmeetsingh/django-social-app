@@ -1,0 +1,14 @@
+*.log
+*.pot
+*.pyc
+Dockerfile
+docker-compose.yml
+static/
+venv/
+__pycache__/
+.env
+.dockerignore
+.gitignore
+.idea/
+.vscode/
+.git/
