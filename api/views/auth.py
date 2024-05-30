@@ -9,7 +9,7 @@ from rest_framework import serializers
 from rest_framework import status
 
 import strings
-from api.models import CustomUser
+from api.serializers import SignupSerializer
 from api.utils import get_auth_token
 
 
@@ -48,15 +48,14 @@ class Login(BaseAuthView):
 
 class Signup(BaseAuthView):
     def post(self, request: Request) -> Response:
-        # Check if a user already exists with the given email
-        if CustomUser.objects.filter(email__iexact=request.data["email"].lower()).exists():
-            return Response({"data": None, "message": strings.EMAIL_EXISTS}, status=status.HTTP_403_FORBIDDEN)
+        if not request.data["email"] or not request.data["password"]:
+            return Response({"data": None, "message": strings.INVALID_REQUEST_DATA}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = CustomUser.objects.create(
-            email=request.data["email"],
-            first_name=request.data.get("first_name", ""),
-            last_name=request.data.get("last_name", "")
-        )
+        serializer = SignupSerializer(data=request.data, context={
+                                      "request": request, "view": self})
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.save()
         user.set_password(request.data["password"])
         user.save()
 
