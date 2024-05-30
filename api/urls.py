@@ -8,5 +8,7 @@ urlpatterns = [
 
     path("user/", friend_request.UserListView.as_view(), name="user-list"),
     path("friend-request/", friend_request.FriendRequestListView.as_view(),
-         name="friend-request")
+         name="friend-request"),
+    path("friend-request/<str:pk>/", friend_request.FriendRequestUpdateView.as_view(),
+         name="update-friend-request")
 ]

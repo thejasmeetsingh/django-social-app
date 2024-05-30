@@ -68,7 +68,6 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         if str(curr_user.id) == self.initial_data["user_id"] or not is_valid_uuid(self.initial_data["user_id"]):
             raise serializers.ValidationError(
                 detail={"user_id": strings.USER_ID_ERROR},
-                code=status.HTTP_400_BAD_REQUEST
             )
 
         # Fetch the record of other user
@@ -79,8 +78,13 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         if not other_user:
             raise serializers.ValidationError(
                 detail={"user_id": strings.USER_NOT_EXISTS},
-                code=status.HTTP_400_BAD_REQUEST
             )
 
         validated_data = {"from_user": curr_user, "to_user": other_user}
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if validated_data["status"] == FriendRequest.StatusType.SENT:
+            raise serializers.ValidationError(
+                detail={"status": strings.REQUEST_STATUS_ERROR})
+        return super().update(instance, {"status": validated_data["status"]})

@@ -47,6 +47,7 @@ class FriendRequestBaseView(GenericAPIView):
 class FriendRequestListView(FriendRequestBaseView, ListModelMixin, CreateModelMixin):
     queryset = FriendRequest.objects.select_related("from_user", "to_user")
     serializer_class = FriendRequestSerializer
+    filterset_fields = ("status",)
 
     def initial(self, request: Request, *args, **kwargs):
         # Add throttling if the request is a POST request
