@@ -9,8 +9,8 @@ from rest_framework import serializers
 from rest_framework import status
 
 import strings
-from auth.models import User
-from auth.utils import get_auth_token
+from api.models import CustomUser
+from api.utils import get_auth_token
 
 
 class BaseAuthView(APIView):
@@ -49,10 +49,10 @@ class Login(BaseAuthView):
 class Signup(BaseAuthView):
     def post(self, request: Request) -> Response:
         # Check if a user already exists with the given email
-        if User.objects.filter(email__iexact=request.data["email"].lower()).exists():
+        if CustomUser.objects.filter(email__iexact=request.data["email"].lower()).exists():
             return Response({"data": None, "message": strings.EMAIL_EXISTS}, status=status.HTTP_403_FORBIDDEN)
 
-        user = User.objects.create(
+        user = CustomUser.objects.create(
             email=request.data["email"],
             first_name=request.data.get("first_name", ""),
             last_name=request.data.get("last_name", "")
