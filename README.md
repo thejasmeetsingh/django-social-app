@@ -11,7 +11,7 @@ A small social networking application which allows user to:
 
 ## Getting Started
 
-Prerequisite: [Docker](https://www.docker.com/products/docker-desktop/) must be installed on your machine.
+**Prerequisite:** [Docker](https://www.docker.com/products/docker-desktop/) must be installed on your machine.
 
 1. Clone the project repository to your local machine.
 2. Open a terminal and navigate to the project directory.
