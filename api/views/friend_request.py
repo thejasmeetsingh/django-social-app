@@ -8,6 +8,7 @@ from api.serializers import UserSerializer, FriendRequestSerializer
 class UserListView(GenericAPIView, ListModelMixin):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    search_fields = ("first_name", "last_name", "=email")
 
     def get_queryset(self):
         # Exclude current user from the queryset
