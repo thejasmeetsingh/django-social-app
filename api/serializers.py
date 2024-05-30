@@ -1,3 +1,5 @@
+from django.contrib.auth.hashers import make_password
+
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.validators import UniqueValidator
@@ -14,10 +16,25 @@ class SignupSerializer(serializers.ModelSerializer):
             lookup="iexact"
         )
     ])
+    password = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
     class Meta:
         model = CustomUser
-        fields = ("email", "first_name", "last_name")
+        fields = ("email", "password", "first_name", "last_name")
+
+    def to_representation(self, instance: CustomUser):
+        data = super().to_representation(instance)
+        # Remove password field from the serialized response
+        data.pop("password")
+        return data
+
+    def create(self, validated_data: dict):
+        validated_data.update({
+            "password": make_password(validated_data["password"])
+        })
+        return super().create(validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):

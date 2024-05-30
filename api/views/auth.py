@@ -48,17 +48,11 @@ class Login(BaseAuthView):
 
 class Signup(BaseAuthView):
     def post(self, request: Request) -> Response:
-        if not request.data["email"] or not request.data["password"]:
-            return Response({"data": None, "message": strings.INVALID_REQUEST_DATA}, status=status.HTTP_400_BAD_REQUEST)
-
         serializer = SignupSerializer(data=request.data, context={
                                       "request": request, "view": self})
         serializer.is_valid(raise_exception=True)
 
         user = serializer.save()
-        user.set_password(request.data["password"])
-        user.save()
-
         tokens = get_auth_token(user)
 
         return Response({"data": tokens, "message": strings.SIGNUP_SUCCESS}, status=status.HTTP_201_CREATED)
