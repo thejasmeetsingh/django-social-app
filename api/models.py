@@ -40,7 +40,8 @@ class FriendRequest(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="request_sent")
     to_user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="request_receive")
-    status = models.CharField(max_length=2, choices=StatusType)
+    status = models.CharField(
+        max_length=2, choices=StatusType, default=StatusType.SENT)
 
     class Meta:
         ordering = ("-created_at",)

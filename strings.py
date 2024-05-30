@@ -8,7 +8,7 @@ EMAIL_EXISTS = "User with this email already exists"
 SIGNUP_SUCCESS = "Account created successfully"
 INVALID_REQUEST_DATA = "Invalid request data passed"
 
-USER_ID_ERROR = "You cannot sent the request to yourself"
+USER_ID_ERROR = "Invalid user ID passed"
 USER_NOT_EXISTS = "User with the given ID does not exists"
 REQUEST_SUCCESS = "Request sent successfully"
 REQUEST_UPDATE_ERROR = "You cannot update the request status"
