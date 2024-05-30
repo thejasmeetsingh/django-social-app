@@ -19,9 +19,8 @@ class BaseAuthView(APIView):
     def handle_exception(self, exc):
         if isinstance(exc, KeyError):
             exc = serializers.ValidationError(detail={
-                "data": None,
                 "message": f"{exc.args[0]} field is required"
-            }, code=status.HTTP_400_BAD_REQUEST)
+            })
 
         return super().handle_exception(exc)
 

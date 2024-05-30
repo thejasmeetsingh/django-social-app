@@ -2,9 +2,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework import serializers, status
+from rest_framework.exceptions import Throttled
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin
 
 import strings
+from api.permissions import CanUpdateRequest
 from api.models import CustomUser, FriendRequest
 from api.serializers import UserSerializer, FriendRequestSerializer
 
@@ -22,7 +24,27 @@ class UserListView(GenericAPIView, ListModelMixin):
         return self.list(request, *args, **kwargs)
 
 
-class FriendRequestListView(GenericAPIView, ListModelMixin, CreateModelMixin):
+class FriendRequestBaseView(GenericAPIView):
+    queryset = FriendRequest.objects.select_related("from_user", "to_user")
+    serializer_class = FriendRequestSerializer
+
+    def handle_exception(self, exc: Exception):
+        if isinstance(exc, KeyError):
+            exc = serializers.ValidationError(detail={
+                "message": f"{exc.args[0]} field is required"
+            })
+
+        # Send customize message for throttle exceptions
+        if isinstance(exc, Throttled):
+            exc = serializers.ValidationError(detail={
+                "message": strings.REQUEST_LIMIT_ERROR
+            })
+            exc.status_code = status.HTTP_429_TOO_MANY_REQUESTS
+
+        return super().handle_exception(exc)
+
+
+class FriendRequestListView(FriendRequestBaseView, ListModelMixin, CreateModelMixin):
     queryset = FriendRequest.objects.select_related("from_user", "to_user")
     serializer_class = FriendRequestSerializer
 
@@ -33,15 +55,6 @@ class FriendRequestListView(GenericAPIView, ListModelMixin, CreateModelMixin):
             self.throttle_scope = "friend_requests"
         return super().initial(request, *args, **kwargs)
 
-    def handle_exception(self, exc: Exception):
-        if isinstance(exc, KeyError):
-            exc = serializers.ValidationError(detail={
-                "data": None,
-                "message": f"{exc.args[0]} field is required"
-            }, code=status.HTTP_400_BAD_REQUEST)
-
-        return super().handle_exception(exc)
-
     def get(self, request: Request, *args, **kwargs) -> Response:
         return self.list(request, *args, **kwargs)
 
@@ -50,6 +63,19 @@ class FriendRequestListView(GenericAPIView, ListModelMixin, CreateModelMixin):
         response.data = {
             "data": response.data,
             "message": strings.REQUEST_SUCCESS
+        }
+
+        return response
+
+
+class FriendRequestUpdateView(FriendRequestBaseView, UpdateModelMixin):
+    permission_classes = (CanUpdateRequest,)
+
+    def patch(self, request: Request, *args, **kwargs):
+        response = self.partial_update(request, args, kwargs)
+        response.data = {
+            "data": response.data,
+            "message": strings.REQUEST_UPDATE_SUCCESS
         }
 
         return response
