@@ -2,12 +2,12 @@
 
 A small social networking application which allows user to:
 
-1. Create a account.
+1. Create an account.
 2. Login into their account.
 3. View other users on the system and search the users based on name or email address.
 4. Send friend request to a user.
 5. Accept/Reject a request received from a user.
-6. View the list of request and filter them by request status.
+6. View list of requests and filter them by request status.
 
 ## Getting Started
 
