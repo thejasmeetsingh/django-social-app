@@ -13,7 +13,7 @@ A small social networking application which allows user to:
 
 1. Implements JWT authentication for users.
 2. All APIs except `login` and `signup` will be called by authenticated users only.
-3. `ScopedRateThrottle` is added so that no users can not send more than 3 friend requests within a minute.
+3. `ScopedRateThrottle` is added so that users can not send more than 3 friend requests within a minute.
 4. API permission is applied, which won't allow the sender or any other user to update the request user. It'll only be updated by the user whose request is intended to.
 
 ## Getting Started
