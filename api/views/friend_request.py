@@ -26,7 +26,14 @@ class FriendRequestListView(GenericAPIView, ListModelMixin, CreateModelMixin):
     queryset = FriendRequest.objects.select_related("from_user", "to_user")
     serializer_class = FriendRequestSerializer
 
-    def handle_exception(self, exc):
+    def initial(self, request: Request, *args, **kwargs):
+        # Add throttling if the request is a POST request
+        # So that user cannot create more than 3 request in a minute
+        if request.method == "POST":
+            self.throttle_scope = "friend_requests"
+        return super().initial(request, *args, **kwargs)
+
+    def handle_exception(self, exc: Exception):
         if isinstance(exc, KeyError):
             exc = serializers.ValidationError(detail={
                 "data": None,
