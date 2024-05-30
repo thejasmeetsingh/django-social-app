@@ -1,0 +1,23 @@
+# Django Social App
+
+A small social networking application which allows user to:
+
+1. Create a account.
+2. Login into their account.
+3. View other users on the system and search the users based on name or email address.
+4. Send friend request to a user.
+5. Accept/Reject a request received from a user.
+6. View the list of request and filter them by request status.
+
+## Getting Started
+
+Prerequisite: [Docker](https://www.docker.com/products/docker-desktop/) must be installed on your machine.
+
+1. Clone the project repository to your local machine.
+2. Open a terminal and navigate to the project directory.
+3. Run the project using `docker-compose up` command.
+4. To stop the project, Run `docker-compose down`.
+
+Once you run the project, Access the APIs at http://0.0.0.0:8000 address. Also you can test APIs on postman.
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/17396704-a24032fe-e59c-40a2-8019-b1df3d90e576?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D17396704-a24032fe-e59c-40a2-8019-b1df3d90e576%26entityType%3Dcollection%26workspaceId%3D392b781a-05ab-415b-9eb8-456aca6f3129)

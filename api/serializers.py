@@ -52,7 +52,8 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     def to_representation(self, instance: FriendRequest):
         data = super().to_representation(instance)
 
-        # Send the details of other user, To whom the request is sent to or received from
+        # Send the details of other user, To whom the request is sent to or
+        # received from depending on current user
         curr_user = self.context["request"].user
         other_user = instance.to_user if curr_user.id == instance.from_user_id else instance.from_user
         data.update({
@@ -84,7 +85,7 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        if validated_data["status"] == FriendRequest.StatusType.SENT:
+        if validated_data["status"] == FriendRequest.StatusType.PENDING:
             raise serializers.ValidationError(
                 detail={"status": strings.REQUEST_STATUS_ERROR})
         return super().update(instance, {"status": validated_data["status"]})

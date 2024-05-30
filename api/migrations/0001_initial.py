@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('modified_at', models.DateTimeField(auto_now=True)),
-                ('status', models.CharField(choices=[('S', 'Sent'), ('A', 'Accept'), ('R', 'Reject')], max_length=2)),
+                ('status', models.CharField(choices=[('P', 'Pending'), ('A', 'Accept'), ('R', 'Reject')], default='P', max_length=2)),
                 ('from_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='request_sent', to=settings.AUTH_USER_MODEL)),
                 ('to_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='request_receive', to=settings.AUTH_USER_MODEL)),
             ],

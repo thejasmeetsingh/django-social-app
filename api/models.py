@@ -21,13 +21,13 @@ class FriendRequest(models.Model):
     """
     Store friend request sent by a user to other user, 
     Also have a field to show the status of the friend request:
-    - S: Sent
+    - P: Pending
     - A: Accept
     - R: Reject
     """
 
     class StatusType(models.TextChoices):
-        SENT = "S"
+        PENDING = "P"
         ACCEPT = "A"
         REJECT = "R"
 
@@ -41,7 +41,7 @@ class FriendRequest(models.Model):
     to_user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="request_receive")
     status = models.CharField(
-        max_length=2, choices=StatusType, default=StatusType.SENT)
+        max_length=2, choices=StatusType, default=StatusType.PENDING)
 
     class Meta:
         ordering = ("-created_at",)
