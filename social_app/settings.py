@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'auth',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=10),
     "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=2),
 }
+
+AUTH_USER_MODEL = 'auth.User'
