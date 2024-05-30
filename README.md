@@ -18,6 +18,10 @@ A small social networking application which allows user to:
 3. Run the project using `docker-compose up` command.
 4. To stop the project, Run `docker-compose down`.
 
-Once you run the project, Access the APIs at http://0.0.0.0:8000 address. Also you can test APIs on postman.
+Once you run the project, Access the APIs at http://0.0.0.0:8000 address.
+
+For get up and running quickly a fixtures file is added which contains mock data of 100 users. All the users have the same password: `1234`. This will allow anyone to test the APIs with good amount of records.
+
+You can test the APIs on postman as well.
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/17396704-a24032fe-e59c-40a2-8019-b1df3d90e576?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D17396704-a24032fe-e59c-40a2-8019-b1df3d90e576%26entityType%3Dcollection%26workspaceId%3D392b781a-05ab-415b-9eb8-456aca6f3129)
